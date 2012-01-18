@@ -47,7 +47,7 @@ def deploy():
 #		# move media folder
 #		run('mv media %s/media' % env.media_dir)
 ##		with prefix('source %s/venv-revlonallaccess/bin/activate' % env.target_dir):
-##			run('%s/venv-revlonallaccess/bin/python manage.py collectstatic --noinput' % env.target_dir)
+##			run('%s/venv-projectname/bin/python manage.py collectstatic --noinput' % env.target_dir)
 #
 #		# create symlink
 #		run('ln -s %s local_settings.py' % env.settings_file)

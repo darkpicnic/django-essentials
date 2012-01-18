@@ -5,7 +5,9 @@ After building several projects, I finally made a script to do most of the work.
 
 1. creates a skeleton fabfile.py
 
-2. creates a .gitignore file with these already added
+2. creates a skeleton requirements.txt
+
+3. creates a .gitignore file with these already added
 	
 	- venv-projectname
 	- .DS_Store
@@ -13,13 +15,20 @@ After building several projects, I finally made a script to do most of the work.
 	- *.db
 	- local_settings.py
 	
-3. creates a project structure:
+4. creates a project structure:
 	
 	- project_root
+		
+		fabfile.py
+		
+		requirements.txt
+		
+		.gitignore
 		
 		- project
 			
 			- apps
+			- logs
 			- config
 			
 				local_settings.py
@@ -53,4 +62,8 @@ After building several projects, I finally made a script to do most of the work.
 			- templates
 				
 				- base.html
-			
+
+5. Modifies the default settings.py file to include
+
+	* more robust logging, including a rotating debug file
+	* adds a safe import for machine specific settings files
