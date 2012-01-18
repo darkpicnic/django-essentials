@@ -40,6 +40,16 @@ After building several projects, I finally made a script to do most of the work.
 				
 			- media
 			- assets
+			
+				- css
+					
+					- style.css
+					
+				- img
+				- js
+				
 			- static
 			- templates
+				
+				- base.html
 			
