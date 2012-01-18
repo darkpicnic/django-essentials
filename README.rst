@@ -67,3 +67,4 @@ After building several projects, I finally made a script to do most of the work.
 
 	* more robust logging, including a rotating debug file
 	* adds a safe import for machine specific settings files
+	* uncomments the admin app include
