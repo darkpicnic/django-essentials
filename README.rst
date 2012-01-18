@@ -3,9 +3,9 @@ Django Essentials
 
 After building several projects, I finally made a script to do most of the work. This file currently does this:
 
-* creates a skeleton fabfile.py
+1. creates a skeleton fabfile.py
 
-* creates a .gitignore file with these already added
+2. creates a .gitignore file with these already added
 	
 	- venv-projectname
 	- .DS_Store
@@ -13,7 +13,7 @@ After building several projects, I finally made a script to do most of the work.
 	- *.db
 	- local_settings.py
 	
-* creates a project structure:
+3. creates a project structure:
 	
 	- project_root
 		
