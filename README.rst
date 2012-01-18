@@ -77,3 +77,16 @@ After building several projects, I finally made a script to do most of the work.
 
 	* uncomments admin auto discover
 	* adds handling of static content when in debug mode
+	
+
+Requirements
+------------------------
+
+The settings.py modifications are based on Django 1.3.1, but I doubt it would break with anything above 1.0. However, since this script is meant to be executed on initial project creation, you're not risking a lot trying it. Worst case scenario, you'll have to tweak the main settings file a bit
+
+
+How do I use?
+------------------------
+
+Create a project container folder, usually named something like "projectname_project". Inside that folder, run 'django-admin.py startproject' command with the project name. Run this script from anywhere and point to the "projectname_project" folder. A prompt will appear with "What is the project name?". Enter the name you gave the project. Done.
+
