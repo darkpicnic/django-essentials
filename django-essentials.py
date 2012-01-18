@@ -410,6 +410,7 @@ else:
 	
 	# Create fabfile, .gitignore, etc
 	make_file(PARENT_DIR + "/fabfile.py", FABFILE_TEMPLATE.safe_substitute( project_name=PROJECT_NAME ))
+	make_file(PARENT_DIR + "/requirements.txt", '')
 	make_file(PARENT_DIR + "/.gitignore", GITIGNORE_TEMPLATE.safe_substitute( project_name=PROJECT_NAME ))
 	
 	# Create base folders
@@ -423,16 +424,10 @@ else:
 		make_file(target_path + '/project.wsgi', WSGI_TEMPLATE.safe_substitute(project_name=PROJECT_NAME, parent_dir=PARENT_DIR))
 		make_file(target_path + '/settings.py', LOCAL_SETTINGS_TEMPLATE.safe_substitute(project_dir=PROJECT_DIR))
 		
-	# Symlinks the dev settings file to a local_settings.py
-	local_settings_link = os.path.join(PROJECT_DIR, 'config') + '/local_settings.py'
-	if not os.path.exists(local_settings_link):
-		print "Symlinking dev settings file"
-		target_settings_file = os.path.join(PROJECT_DIR, 'config/dev') + '/settings.py'
-		os.symlink(target_settings_file, local_settings_link)
-	
 	
 	# Open settings file and replace with custom template
-	settings_file = PROJECT_DIR + '/settings.py'
+	local_setings_file = os.path.join(os.path.join(PROJECT_DIR, 'config') + "/local_settings.py"
+	make_file(local_setings_file, LOCAL_SETTINGS_TEMPLATE.safe_substitute(project_dir=PROJECT_DIR))
 	
 	if os.path.exists( settings_file ):
 		with open(settings_file, "w") as open_file:
