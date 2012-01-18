@@ -432,7 +432,7 @@ else:
 	if not os.path.exists(user_submitted_path):
 		exit("Hmmm... the path you suggested looks wrong...")
 	else:
-		print "Starting bootstrap..."
+		print "Starting Django Essentials..."
 		PROJECT_NAME = raw_input('What is the project name? : ')
 
 		PROJECT_FOLDERS = ['apps', 'templates', 'logs', 'config', 'media', 'assets', 'static']
