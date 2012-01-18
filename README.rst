@@ -16,7 +16,17 @@ After building several projects, I finally made a script to do most of the work.
 * creates a project structure:
 	
 	- project_root
+		
 		- project
+			
 			- apps
 			- config
-			- asdfasdf
+				
+				- dev
+				- staging
+				- prod 
+				
+			- media
+			- assets
+			- static
+			
