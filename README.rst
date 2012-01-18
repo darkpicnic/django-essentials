@@ -21,12 +21,19 @@ After building several projects, I finally made a script to do most of the work.
 			
 			- apps
 			- config
-				
+				local_settings.py
 				- dev
+					project.wsgi
+					settings.py
 				- staging
+					project.wsgi
+					settings.py
 				- prod 
+					project.wsgi
+					settings.py
 				
 			- media
 			- assets
 			- static
+			- templates
 			
