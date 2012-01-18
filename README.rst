@@ -35,6 +35,7 @@ After building several projects, I finally made a script to do most of the work.
 					- settings.py
 
 				- prod 
+				
 					- project.wsgi
 					- settings.py
 				
