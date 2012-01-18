@@ -3,6 +3,39 @@ import os,sys
 from string import Template
 
 
+REQUIREMENTS_TEMPLATE = Template("""\
+Django
+""")
+
+URLS_TEMPLATE = Template("""\
+from django.conf import settings
+from django.conf.urls.defaults import patterns, include, url
+
+# Uncomment the next two lines to enable the admin:
+from django.contrib import admin
+admin.autodiscover()
+
+urlpatterns = patterns('',
+	# Examples:
+	
+	# url(r'^$$', '$project_name.views.home', name='home'),
+	# url(r'^$project_name/', include('$project_name.foo.urls')),
+
+	# Uncomment the admin/doc line below to enable admin documentation:
+	# url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
+
+	# Uncomment the next line to enable the admin:
+	# url(r'^admin/', include(admin.site.urls)),
+
+)
+
+if settings.DEBUG:
+    urlpatterns += patterns('',
+        (r'^static/(?P<path>.*)$$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT }),
+    )
+""")
+
+
 FABFILE_TEMPLATE = Template("""\
 from fabric.api import *
 
@@ -417,7 +450,7 @@ else:
 
 			# Create fabfile, .gitignore, etc
 			make_file(PARENT_DIR + "/fabfile.py", FABFILE_TEMPLATE.safe_substitute( project_name=PROJECT_NAME ))
-			make_file(PARENT_DIR + "/requirements.txt", '')
+			make_file(PARENT_DIR + "/requirements.txt", REQUIREMENTS_TEMPLATE.safe_substitute())
 			make_file(PARENT_DIR + "/.gitignore", GITIGNORE_TEMPLATE.safe_substitute( project_name=PROJECT_NAME ))
 
 			# Create base folders
@@ -436,13 +469,24 @@ else:
 			local_settings_file = os.path.join(PROJECT_DIR, 'config') + "/local_settings.py"
 			make_file(local_settings_file, LOCAL_SETTINGS_TEMPLATE.safe_substitute(project_dir=PROJECT_DIR))
 
-			settings_file = os.path.join(PROJECT_DIR, '/settings.py')
+			# Gut settings file, replace with custom
+			settings_file = os.path.join(PROJECT_DIR, 'settings.py')
 			if os.path.exists( settings_file ):
 				with open(settings_file, "w") as open_file:
 					new_settings = MAIN_SETTINGS_TEMPLATE.substitute(secret_key=os.urandom(50), project_name=PROJECT_NAME)
 					open_file.write(new_settings)
 			else:
 				print "Could not find default settings file"
+
+			
+			# Gut urls.py file, replace with template
+			urls_file = os.path.join(PROJECT_DIR, 'urls.py')
+			if os.path.exists(urls_file):
+				with open(urls_file, "w") as open_file:
+					open_file.write( URLS_TEMPLATE.substitute(project_name=PROJECT_NAME) )
+			else:
+				print "Did not change primary urls file; could not be found"
+			
 
 
 			# Create base.html file in templates dir

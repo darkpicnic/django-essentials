@@ -1,6 +1,10 @@
 Django Essentials
 ================================================
 
+
+Summary
+------------------------
+
 After building several projects, I finally made a script to do most of the work. This file currently does this:
 
 1. creates a skeleton fabfile.py
