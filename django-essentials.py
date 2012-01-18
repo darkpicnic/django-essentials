@@ -392,51 +392,64 @@ def create_folders(parent, targets):
 				print "Folder '%s' already exists, moving on" % new_folder 
 
 
-print "Starting bootstrap..."
-PROJECT_NAME = raw_input('What is the project name? : ')
-
-PROJECT_FOLDERS = ['apps', 'templates', 'logs', 'config', 'media', 'assets', 'static']
-ASSET_FOLDERS   = ['css', 'js', 'img']
-CONFIG_FOLDERS  = ['dev', 'staging', 'prod']
-
-PARENT_DIR  = os.path.dirname(os.path.realpath(__file__))
-PROJECT_DIR = os.path.join(PARENT_DIR, PROJECT_NAME)
-
-if not os.path.exists(PROJECT_DIR):
-	print "ERROR: Create project first"
-	exit()
+if not (len(sys.argv) > 1):
+	exit("You did not specify a target folder")
 else:
-	print "Project has been created, moving on"
-	
-	# Create fabfile, .gitignore, etc
-	make_file(PARENT_DIR + "/fabfile.py", FABFILE_TEMPLATE.safe_substitute( project_name=PROJECT_NAME ))
-	make_file(PARENT_DIR + "/requirements.txt", '')
-	make_file(PARENT_DIR + "/.gitignore", GITIGNORE_TEMPLATE.safe_substitute( project_name=PROJECT_NAME ))
-	
-	# Create base folders
-	create_folders(PROJECT_DIR, PROJECT_FOLDERS)
-	create_folders(os.path.join(PROJECT_DIR, 'assets'), ASSET_FOLDERS)
-	create_folders(os.path.join(PROJECT_DIR, 'config'), CONFIG_FOLDERS)
-	
-	# Create settings and wsgi files for each config release
-	for release in CONFIG_FOLDERS:
-		target_path = os.path.join(os.path.join(PROJECT_DIR, 'config'), release)
-		make_file(target_path + '/project.wsgi', WSGI_TEMPLATE.safe_substitute(project_name=PROJECT_NAME, parent_dir=PARENT_DIR))
-		make_file(target_path + '/settings.py', LOCAL_SETTINGS_TEMPLATE.safe_substitute(project_dir=PROJECT_DIR))
-		
-	
-	# Open settings file and replace with custom template
-	local_setings_file = os.path.join(os.path.join(PROJECT_DIR, 'config') + "/local_settings.py"
-	make_file(local_setings_file, LOCAL_SETTINGS_TEMPLATE.safe_substitute(project_dir=PROJECT_DIR))
-	
-	if os.path.exists( settings_file ):
-		with open(settings_file, "w") as open_file:
-			new_settings = MAIN_SETTINGS_TEMPLATE.substitute(secret_key=os.urandom(50), project_name=PROJECT_NAME)
-			open_file.write(new_settings)
+	user_submitted_path = sys.argv[1]
+	if not os.path.exists(user_submitted_path):
+		exit("Hmmm... the path you suggested looks wrong...")
 	else:
-		print "Could not find default settings file"
+		print "Starting bootstrap..."
+		PROJECT_NAME = raw_input('What is the project name? : ')
+
+		PROJECT_FOLDERS = ['apps', 'templates', 'logs', 'config', 'media', 'assets', 'static']
+		ASSET_FOLDERS   = ['css', 'js', 'img']
+		CONFIG_FOLDERS  = ['dev', 'staging', 'prod']
+
+		PARENT_DIR  = user_submitted_path
+		PROJECT_DIR = os.path.join(PARENT_DIR, PROJECT_NAME)
+
+		if not os.path.exists(PROJECT_DIR):
+			print "ERROR: Create project first"
+			exit()
+		else:
+			print "Project has been created, moving on"
+
+			# Create fabfile, .gitignore, etc
+			make_file(PARENT_DIR + "/fabfile.py", FABFILE_TEMPLATE.safe_substitute( project_name=PROJECT_NAME ))
+			make_file(PARENT_DIR + "/requirements.txt", '')
+			make_file(PARENT_DIR + "/.gitignore", GITIGNORE_TEMPLATE.safe_substitute( project_name=PROJECT_NAME ))
+
+			# Create base folders
+			create_folders(PROJECT_DIR, PROJECT_FOLDERS)
+			create_folders(os.path.join(PROJECT_DIR, 'assets'), ASSET_FOLDERS)
+			create_folders(os.path.join(PROJECT_DIR, 'config'), CONFIG_FOLDERS)
+
+			# Create settings and wsgi files for each config release
+			for release in CONFIG_FOLDERS:
+				target_path = os.path.join(os.path.join(PROJECT_DIR, 'config'), release)
+				make_file(target_path + '/project.wsgi', WSGI_TEMPLATE.safe_substitute(project_name=PROJECT_NAME, parent_dir=PARENT_DIR))
+				make_file(target_path + '/settings.py', LOCAL_SETTINGS_TEMPLATE.safe_substitute(project_dir=PROJECT_DIR))
+
+
+			# Open settings file and replace with custom template
+			local_settings_file = os.path.join(PROJECT_DIR, 'config') + "/local_settings.py"
+			make_file(local_settings_file, LOCAL_SETTINGS_TEMPLATE.safe_substitute(project_dir=PROJECT_DIR))
+
+			settings_file = os.path.join(PROJECT_DIR, '/settings.py')
+			if os.path.exists( settings_file ):
+				with open(settings_file, "w") as open_file:
+					new_settings = MAIN_SETTINGS_TEMPLATE.substitute(secret_key=os.urandom(50), project_name=PROJECT_NAME)
+					open_file.write(new_settings)
+			else:
+				print "Could not find default settings file"
+
+
+			# Create base.html file in templates dir
+			base_target_path = os.path.join(PROJECT_DIR, 'templates') + '/base.html'
+			make_file(base_target_path, HTML5_TEMPLATE.safe_substitute())
+
+			# Create style.css
+			style_css_path = os.path.join(PROJECT_DIR, 'assets/css') + '/style.css'
+			make_file(style_css_path, '/*  Skeleton style.css for %s  */' % PROJECT_NAME)
 		
-	
-	# Create base.html file in templates dir
-	base_target_path = os.path.join(PROJECT_DIR, 'templates') + '/base.html'
-	make_file(base_target_path, HTML5_TEMPLATE.safe_substitute())
