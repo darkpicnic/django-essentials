@@ -7,9 +7,9 @@ Summary
 
 After building several projects, I finally made a script to do most of the work. This file currently does this:
 
-1. creates a skeleton fabfile.py
+1. creates a skeleton fabfile.py (stub code)
 
-2. creates a skeleton requirements.txt
+2. creates a skeleton requirements.txt (with Django)
 
 3. creates a .gitignore file with these already added
 	
@@ -72,3 +72,8 @@ After building several projects, I finally made a script to do most of the work.
 	* more robust logging, including a rotating debug file
 	* adds a safe import for machine specific settings files
 	* uncomments the admin app include
+	
+6. Modifies the project urls.py
+
+	* uncomments admin auto discover
+	* adds handling of static content when in debug mode
