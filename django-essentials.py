@@ -459,6 +459,9 @@ else:
 			create_folders(PROJECT_DIR, PROJECT_FOLDERS)
 			create_folders(os.path.join(PROJECT_DIR, 'assets'), ASSET_FOLDERS)
 			create_folders(os.path.join(PROJECT_DIR, 'config'), CONFIG_FOLDERS)
+			
+			# Create __init__.py in config
+			make_file(os.path.join(PROJECT_DIR, 'config/__init__.py'))
 
 			# Create settings and wsgi files for each config release
 			for release in CONFIG_FOLDERS:
