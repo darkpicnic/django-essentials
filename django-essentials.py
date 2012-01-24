@@ -386,7 +386,7 @@ DATABASES = {
 	}
 }
 
-LOG_FILE_LOCATION = os.join(PROJECT_ROOT, 'logs/application.log')
+LOG_FILE_LOCATION = os.path.join(PROJECT_ROOT, 'logs/application.log')
 
 STATICFILES_DIRS = (
 	PROJECT_ROOT + '/assets/',
