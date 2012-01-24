@@ -1,5 +1,7 @@
 #!/usr/bin/python
 import os,sys
+import random
+import string
 from string import Template
 
 
@@ -229,7 +231,7 @@ MEDIA_URL = ''
 
 # Add apps folder to path
 import os,sys
-sys.path.insert(0, os.path.dirname(os.path.realpath(__file__)), "apps"))
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.realpath(__file__)), "apps"))
 
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
@@ -302,14 +304,13 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
 )
 
+
+LOG_FILE_LOCATION = 'logs/application.log'
+
 try:
 	from config.local_settings import *
 except ImportError:
 	pass
-
-
-LOG_FILE_LOCATION = 'logs/application.log'
-
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
@@ -363,6 +364,7 @@ LOGGING = {
 
 
 LOCAL_SETTINGS_TEMPLATE = Template("""\
+import os
 
 DEBUG = 0
 LOCAL = DEBUG
@@ -384,7 +386,7 @@ DATABASES = {
 	}
 }
 
-LOG_FILE_LOCATION = 'logs/application.log'
+LOG_FILE_LOCATION = os.join(PROJECT_ROOT, 'logs/application.log')
 
 STATICFILES_DIRS = (
 	PROJECT_ROOT + '/assets/',
@@ -473,7 +475,8 @@ else:
 			settings_file = os.path.join(PROJECT_DIR, 'settings.py')
 			if os.path.exists( settings_file ):
 				with open(settings_file, "w") as open_file:
-					new_settings = MAIN_SETTINGS_TEMPLATE.substitute(secret_key=os.urandom(50), project_name=PROJECT_NAME)
+					random_string = ''.join(random.choice(string.ascii_uppercase + string.digits) for x in range(50))
+					new_settings = MAIN_SETTINGS_TEMPLATE.substitute(secret_key=random_string, project_name=PROJECT_NAME)
 					open_file.write(new_settings)
 			else:
 				print "Could not find default settings file"
