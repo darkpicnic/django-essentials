@@ -34,6 +34,8 @@ After building several projects, I finally made a script to do most of the work.
 			- apps
 			- logs
 			- config
+				
+				__init__.py
 			
 				local_settings.py
 				
