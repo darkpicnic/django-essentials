@@ -90,3 +90,10 @@ How do I use?
 
 Create a project container folder, usually named something like "projectname_project". Inside that folder, run 'django-admin.py startproject' command with the project name. Run this script from anywhere and point to the "projectname_project" folder. A prompt will appear with "What is the project name?". Enter the name you gave the project. Done.
 
+
+Wishlist
+------------------------
+
+* auto sniff virtualenv, including python version
+* pull down HTML5 template, bootstrap css, jquery remotely and save to file for debug environment (bootstrap.min.css has a notoriously slow load time)
+* integrate better into Django command structure
